@@ -1,0 +1,19 @@
+# Cloudflare Pages headers. See README > Deployment.
+
+# Keep *.pages.dev hostnames (production alias and every preview deployment)
+# out of search results. These rules match only pages.dev hostnames, so they
+# can never apply to www.bnx24consulting.com.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
