@@ -55,4 +55,4 @@
 - Nationwide, remote-capable service. The owner-supplied Chicago address (4343 N Clarendon Avenue, Chicago, IL 60613) is shown in the footer, on the contact page, in the legal pages and in the Organization schema.
 - Phone supplied by the owner; no booking link or social profiles, since none were supplied.
 - Until `RESEND_API_KEY` is set, the form shows its delivery-error message with the email address.
-- No analytics. If added later, update the privacy policy and consider consent requirements.
+- Cloudflare Web Analytics (cookie-free) is enabled in the Pages dashboard and disclosed in the Privacy and Cookie Policies. Anything cookie-based (e.g. Google Analytics) needs policy changes and consent handling first.

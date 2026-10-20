@@ -19,7 +19,7 @@ Marketing website for **BNX 24 Inc.**, a general business consulting company ser
 | Fonts | Instrument Sans (headings, UI) and Inter (text), self-hosted variable WOFF2 via `next/font/local` (SIL OFL 1.1, licenses in `src/fonts/`) |
 | Photography | Licensed Unsplash photos, graded and pre-encoded to AVIF/WebP/JPEG in `public/images/`. See `docs/image-credits.md` |
 
-Runtime dependencies: `next`, `react`, `react-dom`. No analytics, tracking, or advertising scripts.
+Runtime dependencies: `next`, `react`, `react-dom`. No tracking or advertising scripts. Cookie-free Cloudflare Web Analytics is enabled in the Pages project (dashboard setting, injected by Cloudflare, not in the code).
 
 ## Getting started
 

@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: "Cookie Policy",
   description:
-    "BNX 24 Inc. sets no cookies of its own and uses no analytics or advertising trackers. See the security cookies our hosting provider may set and how to control them.",
+    "BNX 24 Inc. sets no cookies of its own and uses cookie-free analytics with no ad trackers. See the security cookies our host may set and how to control them.",
   path: "/cookie-policy/",
 });
 
@@ -28,9 +28,14 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          <strong>{site.legalName} does not set any cookies of its own</strong>, and the Site does not use analytics,
-          advertising, social media, or other tracking technologies. The Site also does not store anything in your
-          browser’s local storage.
+          <strong>{site.legalName} does not set any cookies of its own</strong>, and the Site does not use advertising,
+          social media, or cross-site tracking technologies. The Site also does not store anything in your browser’s
+          local storage.
+        </p>
+        <p>
+          We measure visits with Cloudflare Web Analytics, which counts page views in aggregate without cookies, local
+          storage, or fingerprinting. See our <Link href="/privacy-policy/#information-we-collect">Privacy Policy</Link>{" "}
+          for what it collects.
         </p>
         <p>
           Our hosting provider, Cloudflare, may set the strictly necessary cookies below to protect the Site from bots,
@@ -96,7 +101,7 @@ const sections: LegalSection[] = [
     title: "Do Not Track and Global Privacy Control",
     body: (
       <p>
-        Because the Site does not track visitors, Do Not Track and Global Privacy Control signals do not change how it
+        Because the Site does not track visitors across websites, Do Not Track and Global Privacy Control signals do not change how it
         behaves. See our <Link href="/privacy-policy/#california">Privacy Policy</Link> for how we would treat these
         signals if our practices change.
       </p>
@@ -150,7 +155,7 @@ export default function CookiePolicyPage() {
       path="/cookie-policy/"
       intro={
         <p>
-          Short version: we don’t set cookies, and we don’t use analytics or advertising trackers. Our hosting provider
+          Short version: we don’t set cookies, our analytics is cookie-free, and we don’t use advertising trackers. Our hosting provider
           may set a security cookie to keep bots out.
         </p>
       }

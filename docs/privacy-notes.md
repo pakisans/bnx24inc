@@ -6,7 +6,7 @@
 
 | Area | Current state |
 | --- | --- |
-| Analytics / tracking / advertising | None installed |
+| Analytics / tracking / advertising | Cloudflare Web Analytics only (cookie-free, aggregated, enabled in the Pages dashboard). No advertising or tracking. |
 | Cookies | None set by the site |
 | Third-party scripts | None. Fonts are self-hosted, with no Google Fonts requests. |
 | Contact | A contact form posting to the site's own Cloudflare Pages Function, which emails the submission via Resend to `office@bnx24inc.com`. Nothing is stored by the site itself. The email address is also shown for direct contact. |

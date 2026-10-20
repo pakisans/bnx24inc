@@ -67,9 +67,17 @@ const sections: LegalSection[] = [
           secure, and protect it against abuse such as spam and attacks.
         </p>
 
+        <h3>Website analytics</h3>
+        <p>
+          We use Cloudflare Web Analytics to understand, in aggregate, how the Site is used: which pages are viewed, which
+          websites refer visitors, the approximate country, the type of device and browser, and how quickly pages load.
+          It does not use cookies or local storage, does not create a profile of you, and does not track you across other
+          websites. We see only aggregated statistics, not individual visitors.
+        </p>
+
         <h3>What we do not collect</h3>
         <ul>
-          <li>We do not use analytics tools, advertising tools, tracking pixels, or social media plugins.</li>
+          <li>We do not use advertising tools, tracking pixels, social media plugins, or cookie-based analytics such as Google Analytics.</li>
           <li>We do not set cookies of our own. See our <Link href="/cookie-policy/">Cookie Policy</Link>.</li>
           <li>We do not buy personal information from data brokers or other third parties.</li>
           <li>Our fonts and images are served from our own Site, so no third-party font or image service sees your visit.</li>
@@ -112,7 +120,7 @@ const sections: LegalSection[] = [
         <ul>
           <li>
             <strong>Service providers</strong> that process it on our behalf and under contract, only to provide their
-            services to us: Cloudflare (website hosting and security), Resend (delivery of contact form messages to our
+            services to us: Cloudflare (website hosting, security, and cookie-free website analytics), Resend (delivery of contact form messages to our
             mailbox), and our business email provider (storing and sending our email).
           </li>
           <li>
@@ -139,9 +147,9 @@ const sections: LegalSection[] = [
     title: "Cookies and similar technologies",
     body: (
       <p>
-        The Site does not set its own cookies and does not use analytics or advertising cookies. Our hosting provider
-        may set strictly necessary security cookies to protect the Site from bots and attacks. Because we do not track
-        visitors, we do not show a cookie banner. Details are in our <Link href="/cookie-policy/">Cookie Policy</Link>.
+        The Site does not set its own cookies and does not use analytics or advertising cookies; our website analytics
+        is cookie-free. Our hosting provider may set strictly necessary security cookies to protect the Site from bots
+        and attacks. Because we do not use optional cookies, we do not show a cookie banner. Details are in our <Link href="/cookie-policy/">Cookie Policy</Link>.
       </p>
     ),
   },
@@ -266,7 +274,7 @@ const sections: LegalSection[] = [
               </tr>
               <tr>
                 <td>Internet activity</td>
-                <td>Technical request data processed for security</td>
+                <td>Technical request data processed for security, and aggregated website usage statistics</td>
                 <td>Your device</td>
                 <td>Hosting provider</td>
               </tr>
@@ -361,7 +369,7 @@ export default function PrivacyPolicyPage() {
       intro={
         <p>
           We collect very little information, only what you choose to send us, and we use it to reply to you. We don’t
-          sell it, we don’t use it for advertising, and the Site doesn’t track you.
+          sell it, we don’t use it for advertising, and the Site doesn’t use cookies or follow you around the web.
         </p>
       }
       sections={sections}
