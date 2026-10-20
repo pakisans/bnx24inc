@@ -3,7 +3,8 @@ import { ApproachSteps } from "@/components/ApproachSteps";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CtaSection } from "@/components/CtaSection";
 import { JsonLd } from "@/components/JsonLd";
-import { PageHero } from "@/components/PageHero";
+import { Photo } from "@/components/Photo";
+import { SectionHeading } from "@/components/SectionHeading";
 import { clientTypes, principles } from "@/content/company";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
@@ -40,54 +41,86 @@ export default function AboutPage() {
   return (
     <>
       <JsonLd data={breadcrumbJsonLd(crumbs)} />
-      <PageHero
-        above={<Breadcrumbs items={crumbs} />}
-        eyebrow="About BNX 24"
-        title="Clear thinking and practical recommendations for growing businesses."
-        lede={`${site.name} helps companies across the United States make better decisions about direction, organization, operations, and growth, and turn those decisions into work their teams can carry out.`}
-      />
+      {/* Opener: headline with a framed architectural photograph */}
+      <section className="border-b border-navy-900/10">
+        <div className="container-site pt-8 pb-16 md:pt-10 md:pb-24">
+          <Breadcrumbs items={crumbs} />
+          <div className="mt-14 grid gap-14 md:mt-20 lg:grid-cols-12 lg:items-end lg:gap-12">
+            <div className="enter lg:col-span-7">
+              <p className="eyebrow mb-7">About BNX 24</p>
+              <h1 className="display">Clear thinking and practical recommendations for growing businesses.</h1>
+              <p className="lede mt-8 max-w-2xl">
+                {site.name} helps companies across the United States make better decisions about direction,
+                organization, operations, and growth, and turn those decisions into work their teams can carry out.
+              </p>
+            </div>
+            <figure className="lg:col-span-4 lg:col-start-9">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-mist sm:aspect-[16/11] lg:aspect-[4/5]">
+                <Photo
+                  priority
+                  alt="Corner of a concrete building with tall shuttered windows catching low afternoon light"
+                  renditions={[
+                    { name: "about-facade", widths: [640, 960, 1400], sizes: "(min-width: 64rem) 30vw, 100vw", width: 1400, height: 1604 },
+                  ]}
+                  fallbackWidth={960}
+                  className="absolute inset-0"
+                  imgClassName="enter-image h-full w-full object-cover object-[50%_35%]"
+                />
+              </div>
+              <figcaption className="mt-4 flex items-center gap-3 font-display text-[0.8125rem] text-slate">
+                <span aria-hidden="true" className="h-px w-6 bg-teal" />
+                Structure first, then scale.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
 
       {/* Purpose */}
-      <section aria-labelledby="purpose-heading" className="py-20 md:py-28">
-        <div className="container-site grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <p className="eyebrow mb-4">Our purpose</p>
-            <h2 id="purpose-heading" className="h2">
-              Room to step back, and a structured way to move forward
+      <section aria-labelledby="purpose-heading" className="section">
+        <div className="container-site grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-3">
+            <h2 id="purpose-heading" className="eyebrow">
+              Our purpose
             </h2>
           </div>
-          <div className="space-y-5 text-lg text-slate md:col-span-6 md:col-start-7 md:pt-10">
-            <p>
+          <div className="lg:col-span-9">
+            <p className="reveal statement">
               Most businesses reach a point where the questions in front of them deserve more attention than the
-              day-to-day allows. What should we focus on? Is the organization set up for the next stage? Is this
-              opportunity worth the risk?
+              day-to-day allows. <span className="text-slate">BNX 24 exists to give those questions that attention.</span>
             </p>
-            <p>
-              BNX 24 exists to give those questions that attention. We bring an outside perspective, a disciplined way
-              of examining the problem, and recommendations sized to the business, whether it is a founder-led startup
-              or an established company with an experienced leadership team.
-            </p>
-            <p className="font-serif text-2xl leading-snug text-navy-900">{site.slogan}</p>
+            <div className="mt-12 grid gap-8 text-slate md:grid-cols-2 md:gap-12">
+              <p>
+                What should we focus on? Is the organization set up for the next stage? Is this opportunity worth the
+                risk? We bring an outside perspective, a disciplined way of examining the problem, and recommendations
+                sized to the business.
+              </p>
+              <p>
+                That holds whether the client is a founder-led startup or an established company with an experienced
+                leadership team. The scale of the work changes; the standard of thinking does not.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Principles */}
-      <section aria-labelledby="principles-heading" className="border-y border-line bg-white py-20 md:py-28">
+      <section aria-labelledby="principles-heading" className="section bg-white">
         <div className="container-site">
-          <div className="max-w-3xl">
-            <p className="eyebrow mb-4">Principles</p>
-            <h2 id="principles-heading" className="h2">
-              The principles behind our work
-            </h2>
-          </div>
-          <ol className="mt-14 grid gap-x-12 md:grid-cols-2 lg:grid-cols-3">
+          <SectionHeading
+            layout="split"
+            id="principles-heading"
+            eyebrow="Principles"
+            title="The principles behind our work"
+            intro={site.slogan}
+          />
+          <ol className="mt-16 grid gap-x-12 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
             {principles.map((p, i) => (
-              <li key={p.title} className="border-t border-line py-8">
-                <span className="text-sm font-semibold tracking-[0.14em] text-teal" aria-hidden="true">
+              <li key={p.title} className="reveal border-t border-navy-900/15 pt-7 pb-10">
+                <span className="index-num" aria-hidden="true">
                   0{i + 1}
                 </span>
-                <h3 className="h3 mt-3">{p.title}</h3>
+                <h3 className="h3 mt-5">{p.title}</h3>
                 <p className="mt-3 text-slate">{p.body}</p>
               </li>
             ))}
@@ -96,29 +129,31 @@ export default function AboutPage() {
       </section>
 
       {/* Approach */}
-      <section aria-labelledby="approach-heading" className="on-dark bg-navy-900 py-20 text-white md:py-28">
+      <section aria-labelledby="approach-heading" className="on-dark section relative overflow-hidden bg-navy-900 text-white">
         <div className="container-site">
-          <div className="max-w-3xl">
-            <p className="eyebrow mb-4">Approach</p>
-            <h2 id="approach-heading" className="h2 text-white">
-              How we approach an engagement
-            </h2>
-            <p className="lede mt-5">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
+            <div className="lg:col-span-7">
+              <p className="eyebrow mb-5">Approach</p>
+              <h2 id="approach-heading" className="h2 text-white">
+                How we approach an engagement
+              </h2>
+            </div>
+            <p className="lede lg:col-span-5">
               Four stages, applied with as much or as little depth as the situation calls for. The scope of each
               stage, including any support after recommendations are delivered, is agreed with you up front.
             </p>
           </div>
-          <div className="mt-14">
+          <div className="reveal mt-16 md:mt-20">
             <ApproachSteps detailed />
           </div>
         </div>
       </section>
 
       {/* Nationwide + clients */}
-      <section aria-labelledby="nationwide-heading" className="py-20 md:py-28">
+      <section aria-labelledby="nationwide-heading" className="section">
         <div className="container-site grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <p className="eyebrow mb-4">Nationwide</p>
+            <p className="eyebrow mb-5">Nationwide</p>
             <h2 id="nationwide-heading" className="h2">
               Serving businesses across the United States
             </h2>
@@ -129,14 +164,14 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            <h3 className="font-sans text-xs font-semibold tracking-[0.14em] text-slate uppercase">
+            <h3 className="font-display text-xs font-semibold tracking-[0.16em] text-slate uppercase">
               Who we typically work with
             </h3>
-            <ul className="mt-5 border-t border-line">
+            <ul className="mt-5 border-t border-navy-900/15">
               {clientTypes.map((c) => (
-                <li key={c.title} className="border-b border-line py-5">
-                  <p className="font-semibold text-navy-900">{c.title}</p>
-                  <p className="mt-1 text-slate">{c.body}</p>
+                <li key={c.title} className="grid gap-1 border-b border-navy-900/15 py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
+                  <p className="font-display text-[1.0625rem] font-medium text-navy-900">{c.title}</p>
+                  <p className="text-[0.9375rem] text-slate">{c.body}</p>
                 </li>
               ))}
             </ul>
@@ -145,18 +180,18 @@ export default function AboutPage() {
       </section>
 
       {/* Commitments */}
-      <section aria-labelledby="expect-heading" className="border-t border-line bg-sand py-20 md:py-28">
+      <section aria-labelledby="expect-heading" className="section bg-stone">
         <div className="container-site">
           <div className="max-w-3xl">
-            <p className="eyebrow mb-4">What to expect</p>
+            <p className="eyebrow mb-5">What to expect</p>
             <h2 id="expect-heading" className="h2">
               How we work with clients
             </h2>
           </div>
-          <ul className="mt-12 grid gap-x-10 md:grid-cols-3">
+          <ul className="mt-14 grid gap-x-10 md:grid-cols-3">
             {commitments.map((c) => (
               <li key={c.title} className="border-t-2 border-navy-900 pt-6 pb-8">
-                <h3 className="font-sans text-lg leading-snug font-semibold tracking-normal text-navy-900">{c.title}</h3>
+                <h3 className="text-[1.25rem] leading-snug font-medium">{c.title}</h3>
                 <p className="mt-3 text-slate">{c.body}</p>
               </li>
             ))}

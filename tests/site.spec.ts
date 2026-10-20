@@ -128,7 +128,7 @@ test.describe("layout", () => {
   for (const width of [390, 768, 1440]) {
     test(`no horizontal overflow at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
-      for (const route of ["/", "/services/", "/services/business-operations-consulting/", "/contact/", "/about/"]) {
+      for (const route of ["/", "/services/", "/services/business-operations-consulting/", "/contact/", "/about/", "/privacy-policy/", "/cookie-policy/"]) {
         await page.goto(route);
         const overflow = await page.evaluate(
           () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -156,7 +156,8 @@ test.describe("navigation", () => {
     await nav.getByRole("link", { name: "Services" }).click();
     await expect(page).toHaveURL(/\/services\/$/);
     await expect(nav.getByRole("link", { name: "Services" })).toHaveAttribute("aria-current", "page");
-    await nav.getByRole("link", { name: "Start a Conversation" }).click();
+    await expect(nav.getByRole("link", { name: "Let’s Talk" })).toHaveAttribute("href", "/contact/");
+    await nav.getByRole("link", { name: "Contact" }).click();
     await expect(page).toHaveURL(/\/contact\/$/);
     await expect(page.locator("h1")).toHaveText("Let’s Talk About Your Business");
   });
@@ -199,4 +200,12 @@ test.describe("touch navigation", () => {
     await expect(page).toHaveURL(/\/about\/$/);
     await expect(menu).toBeHidden();
   });
+});
+
+test("footer links to every legal page", async ({ page }) => {
+  await page.goto("/");
+  const legalNav = page.getByRole("navigation", { name: "Legal" });
+  for (const name of ["Privacy Policy", "Terms of Use", "Cookie Policy", "Accessibility"]) {
+    await expect(legalNav.getByRole("link", { name })).toBeVisible();
+  }
 });

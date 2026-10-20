@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { ContactDrawer } from "@/components/ContactDrawer";
 import { JsonLd } from "@/components/JsonLd";
-import { site } from "@/content/site";
+import { integrations, site } from "@/content/site";
+import { services } from "@/content/services";
 import { ogImage } from "@/lib/metadata";
 import { organizationJsonLd } from "@/lib/structured-data";
 import "./globals.css";
@@ -15,10 +17,10 @@ const inter = localFont({
   display: "swap",
 });
 
-const sourceSerif = localFont({
-  src: "../fonts/source-serif-4-latin-wght.woff2",
-  variable: "--font-source-serif",
-  weight: "400 600",
+const instrumentSans = localFont({
+  src: "../fonts/instrument-sans-latin-wdth-wght.woff2",
+  variable: "--font-instrument",
+  weight: "400 700",
   display: "swap",
 });
 
@@ -47,11 +49,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-US" className={`${inter.variable} ${sourceSerif.variable}`}>
+    <html lang="en-US" className={`${inter.variable} ${instrumentSans.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
-          className="fixed top-3 left-3 z-50 -translate-y-24 rounded-[3px] bg-navy-900 px-4 py-3 font-semibold text-white focus:translate-y-0"
+          className="fixed top-3 left-3 z-50 -translate-y-24 rounded-sm bg-navy-900 px-4 py-3 font-semibold text-white focus:translate-y-0"
         >
           Skip to main content
         </a>
@@ -60,6 +62,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
         </main>
         <SiteFooter />
+        <ContactDrawer
+          endpoint={integrations.contactFormEndpoint}
+          email={site.email}
+          phone={site.phone}
+          phoneHref={site.phoneHref}
+          services={services.map((s) => ({ value: s.slug, label: s.title, number: s.number, focus: s.focus }))}
+        />
         <JsonLd data={organizationJsonLd()} />
       </body>
     </html>

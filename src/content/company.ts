@@ -54,38 +54,52 @@ export const principles = [
   },
 ] as const;
 
+/** Homepage: the situations that most often bring a business to BNX 24. */
 export const challenges: { title: string; body: string; services: ServiceSlug[] }[] = [
   {
-    title: "Too many priorities",
-    body: "Several important initiatives are competing for the same people and budget, and none of them is moving fast enough.",
-    services: ["business-strategy-planning", "management-consulting"],
-  },
-  {
-    title: "Work that doesn’t flow",
-    body: "Handoffs break down, tasks get done twice, and the same problems resurface month after month.",
-    services: ["business-operations-consulting", "process-improvement-cost-optimization"],
-  },
-  {
-    title: "A growth decision on the table",
-    body: "A new market, customer segment, or partnership looks promising, but the case for it isn’t clear yet.",
+    title: "Planning the next stage of growth",
+    body: "The business has outgrown the way it was planned and run. Before adding people, offerings, or locations, you want an order of operations that the team and the budget can support.",
     services: ["business-development-growth", "business-expansion-strategic-advisory"],
   },
   {
-    title: "Stretched resources",
-    body: "Demands keep growing faster than the people, time, and money available to meet them.",
-    services: ["management-consulting", "process-improvement-cost-optimization"],
+    title: "Bringing clarity to business priorities",
+    body: "Several initiatives are competing for the same people and money, and leaders describe the goals differently. The work is agreeing on what matters most, and what can wait.",
+    services: ["business-strategy-planning", "management-consulting"],
   },
   {
-    title: "A structure you’ve outgrown",
-    body: "The organization made sense at a smaller size. Now roles overlap, decisions stall, and the owner is the bottleneck.",
-    services: ["management-consulting", "business-operations-consulting"],
+    title: "Improving inefficient operations",
+    body: "Handoffs break down, tasks are done twice, and the same problems return every month. You want to see where time and cost are going, and what to change first.",
+    services: ["business-operations-consulting", "process-improvement-cost-optimization"],
   },
   {
-    title: "Decisions without enough evidence",
-    body: "Leadership is relying on assumptions about customers, competitors, or performance that haven’t been checked.",
-    services: ["market-research-business-analysis"],
+    title: "Making better-informed decisions",
+    body: "A significant choice is on the table, and it rests on assumptions about customers, competitors, or performance that haven’t been tested. You want evidence before you commit.",
+    services: ["market-research-business-analysis", "business-strategy-planning"],
   },
 ];
+
+/**
+ * Homepage "Why BNX 24": four working principles, worded to stand apart from
+ * the hero and the approach section.
+ */
+export const homePrinciples = [
+  {
+    title: "Shaped around your situation",
+    body: "Scope, depth, and deliverables are set by your business: its size, its stage, and what you are prepared to invest. There is no packaged program to fit into.",
+  },
+  {
+    title: "A view of the whole business",
+    body: "A problem that shows up in one department often starts in another. Each recommendation is weighed against its effect on the rest of the organization.",
+  },
+  {
+    title: "Advice written to be used",
+    body: "Recommendations come with priorities, owners, and a realistic sequence, written for the people who will carry them out rather than for a shelf.",
+  },
+  {
+    title: "Attention to how work gets done",
+    body: "Strategy only matters if operations can deliver it. We look closely at workflows, handoffs, and costs so that plans hold up in day-to-day practice.",
+  },
+] as const;
 
 export const clientTypes = [
   {

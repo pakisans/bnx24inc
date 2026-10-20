@@ -1,15 +1,18 @@
 /**
  * Single source of truth for company facts, URLs and navigation.
- * Only owner-supplied facts belong here. Do not add addresses, phone numbers,
- * social profiles or credentials until the owner confirms them.
+ * Only owner-supplied facts belong here. Do not add addresses, social
+ * profiles or credentials until the owner confirms them.
  */
 export const site = {
   name: "BNX 24 Inc.",
   shortName: "BNX 24",
   legalName: "BNX 24 INC",
   /** Canonical origin. No trailing slash. */
-  url: "https://www.bnx24consulting.com",
-  email: "office@bnx24consulting.com",
+  url: "https://www.bnx24inc.com",
+  email: "office@bnx24inc.com",
+  /** Owner-supplied business phone, shown as written and dialed as E.164. */
+  phone: "+1 (206) 519-8855",
+  phoneHref: "tel:+12065198855",
   slogan: "Building Better Businesses Through Strategy.",
   description:
     "BNX 24 Inc. is a business consulting firm helping U.S. companies clarify direction, strengthen operations and organizational structure, and evaluate opportunities for growth.",
@@ -19,7 +22,7 @@ export const site = {
 
 export const primaryCta = {
   heading: "Let’s Talk About Your Business",
-  label: "Start a Conversation",
+  label: "Let’s Talk",
   href: "/contact/",
 } as const;
 
@@ -30,12 +33,14 @@ export const mainNav = [
 ] as const;
 
 /**
- * Optional third-party integrations. Values are read at build time.
- * The form endpoint is public by nature (it is called from the browser),
- * so it must never be a private API key.
+ * Integrations. Values are read at build time.
+ * The contact form posts to the site's own Cloudflare Pages Function
+ * (functions/api/contact.ts), which sends the email server-side. Override the
+ * endpoint only to point the form at another public URL; it is compiled into
+ * browser code, so it must never contain a secret.
  */
 export const integrations = {
-  contactFormEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT?.trim() || null,
+  contactFormEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT?.trim() || "/api/contact",
 } as const;
 
 /** Absolute URL for a site path. Paths must start with "/". */

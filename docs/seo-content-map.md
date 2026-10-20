@@ -1,6 +1,6 @@
 # SEO content map
 
-Canonical origin: `https://www.bnx24consulting.com`. Every URL ends with a trailing slash and matches its canonical tag and sitemap entry.
+Canonical origin: `https://www.bnx24inc.com`. Every URL ends with a trailing slash and matches its canonical tag and sitemap entry.
 
 **Keyword themes are hypotheses**, based on the services offered and common phrasing. They have **not** been validated with keyword research tools, and no search volumes or difficulty scores are implied. Validate them with Search Console data after launch (queries, impressions, click-through) and adjust titles and copy based on real queries.
 
@@ -19,7 +19,7 @@ Titles and descriptions below are extracted from the built HTML. Lengths are cha
 | `/services/market-research-business-analysis/` | Commercial/informational: businesses needing evidence before a market or investment decision | market research for small business; competitive analysis; business analysis consulting | Market Research & Business Analysis Services \| BNX 24 Inc. (58) | Market research and business analysis for decision-makers: market and competitor reviews, customer insight, and internal data analysis tied to a specific question. (163) |
 | `/services/process-improvement-cost-optimization/` | Commercial: businesses with a known inefficient process or rising costs | process improvement consulting; cost reduction consultant; business efficiency | Process Improvement & Cost Optimization Consulting \| BNX 24 Inc. (64) | Process improvement and cost optimization consulting: analyze specific workflows and spending areas, reduce complexity and rework, and keep costs visible. (154) |
 | `/services/business-expansion-strategic-advisory/` | Commercial: established businesses evaluating a significant expansion decision | business expansion consulting; strategic advisory services; expansion planning | Business Expansion & Strategic Advisory \| BNX 24 Inc. (53) | Strategic advisory for business expansion: test the case for new markets, service lines, or model changes, check readiness, and plan a phased path forward. (155) |
-| `/contact/` | Transactional: contact a business consultant | contact business consultant; BNX 24 contact | Contact BNX 24 \| BNX 24 Inc. (28) | Tell BNX 24 about your business and the decisions in front of you. Reach us at office@bnx24consulting.com to start a conversation about consulting support. (155) |
+| `/contact/` | Transactional: contact a business consultant | contact business consultant; BNX 24 contact | Contact BNX 24 \| BNX 24 Inc. (28) | Tell BNX 24 about your business and the decisions in front of you. Reach us at office@bnx24inc.com to start a conversation about consulting support. (155) |
 
 ## Internal linking
 

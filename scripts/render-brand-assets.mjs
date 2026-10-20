@@ -18,7 +18,7 @@ const dataUri = async (file, type) => `data:${type};base64,${(await readFile(p(f
 
 const fonts = `
 @font-face { font-family: "Inter"; src: url("${await dataUri("src/fonts/inter-latin-wght.woff2", "font/woff2")}") format("woff2"); font-weight: 100 900; }
-@font-face { font-family: "Source Serif"; src: url("${await dataUri("src/fonts/source-serif-4-latin-wght.woff2", "font/woff2")}") format("woff2"); font-weight: 200 900; }
+@font-face { font-family: "Instrument Sans"; src: url("${await dataUri("src/fonts/instrument-sans-latin-wdth-wght.woff2", "font/woff2")}") format("woff2"); font-weight: 400 700; }
 `;
 const logoDark = await dataUri("public/brand/bnx24-logo-dark.svg", "image/svg+xml");
 const mono = await dataUri("public/brand/bnx24-monogram.svg", "image/svg+xml");
@@ -32,13 +32,14 @@ body { width: 1200px; height: 630px; background: #0B1F33; font-family: Inter; co
 .tl { top: 0; left: 0; border-width: 3px 0 0 3px; } .br { right: 0; bottom: 0; border-width: 0 3px 3px 0; }
 .inner { position: absolute; inset: 52px 56px; display: flex; flex-direction: column; }
 .logo { height: 46px; width: auto; align-self: flex-start; }
-h1 { font-family: "Source Serif"; font-weight: 500; font-size: 68px; line-height: 1.06; letter-spacing: -0.02em; margin-top: 54px; max-width: 900px; }
+h1 { font-family: "Instrument Sans"; font-weight: 560; font-size: 84px; line-height: 1; letter-spacing: -0.038em; margin-top: 48px; max-width: 980px; }
+h1 span { display: block; color: #6FCFC2; }
 p { margin-top: auto; font-size: 24px; white-space: nowrap; gap: 32px; color: #A9B4BF; display: flex; justify-content: space-between; align-items: flex-end; }
 p b { color: #6FCFC2; font-weight: 600; font-size: 22px; letter-spacing: .02em; }
 </style></head><body><div class="grid"></div><div class="panel"><span class="corner tl"></span><span class="corner br"></span>
 <div class="inner"><img class="logo" src="${logoDark}" alt="">
-<h1>Building Better Businesses Through Strategy.</h1>
-<p><span>Business consulting for companies across the United States</span><b>bnx24consulting.com</b></p></div></div></body></html>`;
+<h1>A clearer direction.<span>A stronger business.</span></h1>
+<p><span>Business consulting for companies across the United States</span><b>bnx24inc.com</b></p></div></div></body></html>`;
 
 const iconHtml = (size, pad = 0, bg = "transparent") => `<!doctype html><html><head><style>
 * { margin: 0; } body { width: ${size}px; height: ${size}px; background: ${bg}; display: grid; place-items: center; }
