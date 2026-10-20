@@ -113,6 +113,16 @@ export default function ContactPage() {
                     </a>
                   </dd>
                 </div>
+                <div>
+                  <dt className="text-sm text-slate-light">Address</dt>
+                  <dd className="mt-1">
+                    <address className="text-[1.0625rem] leading-relaxed text-white not-italic">
+                      {site.address.street}
+                      <br />
+                      {site.address.city}, {site.address.region} {site.address.postalCode}
+                    </address>
+                  </dd>
+                </div>
               </dl>
             </div>
           </div>

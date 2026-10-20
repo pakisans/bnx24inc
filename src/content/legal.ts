@@ -1,3 +1,5 @@
+import { addressLine } from "./site";
+
 /**
  * Facts used by the legal pages. These are drafts written for this site as it
  * is built today (no analytics, no ads, no cookies of its own). Have them
@@ -12,9 +14,9 @@ export const legal = {
    * incorporation, e.g. "Delaware". Leave null until the owner confirms it;
    * the Terms then use a neutral fallback.
    */
-  governingState: null as string | null,
+  governingState: "Illinois" as string | null,
   /** Optional postal address for privacy requests. Shown only when confirmed. */
-  mailingAddress: null as string | null,
+  mailingAddress: addressLine as string | null,
 } as const;
 
 export const legalPages = [

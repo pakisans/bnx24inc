@@ -3,7 +3,7 @@ import { servicePath, type Service } from "@/content/services";
 
 const orgId = `${site.url}/#organization`;
 
-/** Organization facts supplied by the owner. No address, ratings or sameAs until verified. */
+/** Organization facts supplied by the owner. No ratings or sameAs until verified. */
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -22,6 +22,14 @@ export function organizationJsonLd() {
       email: site.email,
       areaServed: "US",
       availableLanguage: "English",
+    },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: site.address.street,
+      addressLocality: site.address.city,
+      addressRegion: site.address.region,
+      postalCode: site.address.postalCode,
+      addressCountry: site.address.country,
     },
     description: site.description,
     slogan: site.slogan,

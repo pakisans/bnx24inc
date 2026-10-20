@@ -31,10 +31,10 @@ test.describe("every public route", () => {
       expect(description?.length ?? 0).toBeLessThanOrEqual(170);
       await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
 
-      // All JSON-LD blocks parse and contain no ratings/reviews/addresses.
+      // All JSON-LD blocks parse and contain no ratings, reviews or unverified facts.
       for (const block of await page.locator('script[type="application/ld+json"]').allTextContents()) {
         expect(() => JSON.parse(block)).not.toThrow();
-        expect(block).not.toMatch(/aggregateRating|"review"|"address"|foundingDate|sameAs/);
+        expect(block).not.toMatch(/aggregateRating|"review"|foundingDate|sameAs/);
       }
 
       // Wait for hydration before checking for runtime errors.

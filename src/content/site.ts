@@ -1,7 +1,7 @@
 /**
  * Single source of truth for company facts, URLs and navigation.
- * Only owner-supplied facts belong here. Do not add addresses, social
- * profiles or credentials until the owner confirms them.
+ * Only owner-supplied facts belong here. Do not add social profiles or
+ * credentials until the owner confirms them.
  */
 export const site = {
   name: "BNX 24 Inc.",
@@ -13,6 +13,14 @@ export const site = {
   /** Owner-supplied business phone, shown as written and dialed as E.164. */
   phone: "+1 (206) 519-8855",
   phoneHref: "tel:+12065198855",
+  /** Owner-supplied business address. */
+  address: {
+    street: "4343 N Clarendon Avenue",
+    city: "Chicago",
+    region: "IL",
+    postalCode: "60613",
+    country: "US",
+  },
   slogan: "Building Better Businesses Through Strategy.",
   description:
     "BNX 24 Inc. is a business consulting firm helping U.S. companies clarify direction, strengthen operations and organizational structure, and evaluate opportunities for growth.",
@@ -42,6 +50,9 @@ export const mainNav = [
 export const integrations = {
   contactFormEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT?.trim() || "/api/contact",
 } as const;
+
+/** One-line postal address, e.g. for legal pages. */
+export const addressLine = `${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postalCode}`;
 
 /** Absolute URL for a site path. Paths must start with "/". */
 export function absoluteUrl(path: string): string {

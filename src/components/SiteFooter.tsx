@@ -63,6 +63,11 @@ export function SiteFooter() {
             >
               {site.phone}
             </a>
+            <address className="mt-3 text-[0.9375rem] not-italic">
+              {site.address.street}
+              <br />
+              {site.address.city}, {site.address.region} {site.address.postalCode}
+            </address>
             <p className="mt-3 text-[0.9375rem]">General business consulting for companies across the United States.</p>
           </div>
         </div>

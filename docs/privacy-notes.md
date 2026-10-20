@@ -25,10 +25,10 @@ Before launch, the owner should:
 
 ## Owner to confirm before launch
 
-- `src/content/legal.ts` → `governingState`: the state of incorporation (Terms of Use, governing law). Until set, the Terms use a neutral fallback.
-- `src/content/legal.ts` → `mailingAddress`: optional postal address for privacy requests.
+- `src/content/legal.ts` → `governingState` is set to **Illinois** (company based in Chicago). Confirm it matches the state of incorporation.
+- `src/content/legal.ts` → `mailingAddress` comes from `site.address` (4343 N Clarendon Avenue, Chicago, IL 60613).
 - `src/content/legal.ts` → `effectiveDate`: set to the launch date, and update it whenever a policy changes.
-- The Privacy Policy names the email provider generically ("our business email provider"). Optionally name it (e.g. Google Workspace) once chosen.
+- The Privacy Policy names the email provider generically ("our business email provider"). The mailbox is on Zoho Mail; naming it is optional.
 
 ## Keep the pages true
 

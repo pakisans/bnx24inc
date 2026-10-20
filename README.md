@@ -199,7 +199,7 @@ In SSL/TLS, enable **Always Use HTTPS**. Consider HSTS once everything works.
 
 ### 6. Business mailbox (separate task)
 
-`office@bnx24inc.com` appears on the site but **is not created by this project**. Set it up with an email provider (Google Workspace, Microsoft 365, Zoho, and so on): add its MX, SPF, DKIM, and DMARC DNS records, then send and receive a test message before launch.
+`office@bnx24inc.com` is hosted on **Zoho Mail** (MX `mx.zoho.com`/`mx2`/`mx3`, SPF `include:zohomail.com`, DKIM selector `zmail`). Add a DMARC record (`TXT _dmarc` → `v=DMARC1; p=none; rua=mailto:office@bnx24inc.com`) if it is not there yet. Resend's records live on `send` and `resend._domainkey`, so they don't conflict with Zoho.
 
 ### 7. Search Console
 

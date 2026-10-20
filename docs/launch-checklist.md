@@ -27,7 +27,9 @@
 - [ ] Verify `bnx24inc.com` in Resend, set `RESEND_API_KEY` (secret) in Cloudflare Pages, redeploy, and send one approved test submission
 - [ ] Optional: Cloudflare WAF rate-limiting rule for `POST /api/contact`
 - [x] Privacy Policy, Terms of Use, Cookie Policy and Accessibility Statement published and linked from the footer and form
-- [ ] Attorney review of the legal pages; confirm `governingState`, `effectiveDate` (and optional `mailingAddress`) in `src/content/legal.ts`
+- [ ] Attorney review of the legal pages (governing law set to Illinois; mailing address set from `site.address`)
+- [ ] DMARC record for `bnx24inc.com` (Zoho mail)
+- [ ] Decide the canonical host: `www.bnx24inc.com` does not resolve yet while the code uses `www` (add `www` as a Pages custom domain and redirect the apex to it)
 - [ ] Verify the domain in Google Search Console (DNS TXT), submit the sitemap, and inspect key URLs
 - [ ] Optional: Bing Webmaster Tools
 - [ ] Re-run Lighthouse against the production URL
@@ -45,12 +47,12 @@
 - [ ] **Slogan** "Building Better Businesses Through Strategy." as the single primary tagline
 - [ ] **Logo** approval, including the teal "24"
 - [ ] **Phone** `+1 (206) 519-8855` is answered or has voicemail during business hours
-- [ ] **Future additions**, only once verified: team or founder bios, credentials, office address, booking link, social profiles (`sameAs`), client references or testimonials (with written permission)
+- [ ] **Future additions**, only once verified: team or founder bios, credentials, booking link, social profiles (`sameAs`), client references or testimonials (with written permission)
 - [ ] **Legal pages** reviewed by an attorney
 
 ## Assumptions made (reversible)
 
-- Nationwide, remote-capable service with no public address. The address is omitted from the site and the schema.
+- Nationwide, remote-capable service. The owner-supplied Chicago address (4343 N Clarendon Avenue, Chicago, IL 60613) is shown in the footer, on the contact page, in the legal pages and in the Organization schema.
 - Phone supplied by the owner; no booking link or social profiles, since none were supplied.
 - Until `RESEND_API_KEY` is set, the form shows its delivery-error message with the email address.
 - No analytics. If added later, update the privacy policy and consider consent requirements.
