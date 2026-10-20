@@ -2,8 +2,8 @@
 
 Marketing website for **BNX 24 Inc.**, a general business consulting company serving clients across the United States.
 
-- Intended production URL: `https://www.bnx24consulting.com`
-- Static Next.js export, deployed to **Cloudflare Pages**. No server, database, or CMS.
+- Intended production URL: `https://www.bnx24inc.com`
+- Static Next.js export, deployed to **Cloudflare Pages**, plus one Pages Function (`/api/contact`) that emails contact form submissions. No database or CMS.
 
 ## Stack
 
@@ -16,7 +16,8 @@ Marketing website for **BNX 24 Inc.**, a general business consulting company ser
 | Language | TypeScript 6.0 (strict). TypeScript 7 is not used yet because `typescript-eslint` supports `<6.1`. |
 | Lint | ESLint 10 + `eslint-config-next` (core-web-vitals + typescript). `next lint` was removed in Next 16. |
 | Tests | Playwright smoke tests against the exported `out/` folder |
-| Fonts | Inter and Source Serif 4, self-hosted variable WOFF2 via `next/font/local` (SIL OFL 1.1, licenses in `src/fonts/`) |
+| Fonts | Instrument Sans (headings, UI) and Inter (text), self-hosted variable WOFF2 via `next/font/local` (SIL OFL 1.1, licenses in `src/fonts/`) |
+| Photography | Licensed Unsplash photos, graded and pre-encoded to AVIF/WebP/JPEG in `public/images/`. See `docs/image-credits.md` |
 
 Runtime dependencies: `next`, `react`, `react-dom`. No analytics, tracking, or advertising scripts.
 
@@ -38,7 +39,6 @@ npm run dev           # http://localhost:3000
 | `npm run typecheck` | Generates Next route types, then `tsc --noEmit` |
 | `npm run lint` | `eslint .` |
 | `npm run test:e2e` | Playwright smoke tests against `out/` (build first) |
-| `npm run test:form` | Builds with a non-routable test endpoint (`https://forms.invalid/...`), runs the contact form tests with intercepted requests, then rebuilds normally. Nothing is sent to a real service. Uses POSIX shell syntax. |
 | `npm run verify` | typecheck → lint → build → e2e |
 | `npm run brand:render` | Re-renders PNG/ICO brand assets and the social image (needs `npx playwright install chromium`) |
 
@@ -97,27 +97,40 @@ Palette: navy `#0B1F33`, deep navy `#06131F`, warm white `#F8F6F1`, sand `#EFEBE
 
 ## Contact form
 
-The contact page has two honest states, chosen at **build time**:
+`/contact/` renders a form that posts JSON to **`/api/contact`**, a Cloudflare Pages Function in `functions/api/contact.ts`. The function validates the submission again on the server and emails it to the BNX 24 mailbox through [Resend](https://resend.com). The visitor's address is set as Reply-To, so a normal reply answers them.
 
-1. **No endpoint configured (default).** The page shows an email contact panel (`office@bnx24consulting.com`, mailto button). No form is rendered.
-2. **Endpoint configured.** The page renders a form (name, work email, company, area of interest, message) that `POST`s JSON to the endpoint. Success is shown **only** when the endpoint returns a 2xx status. Network or server errors show an error message with the email address, and the typed message is kept.
+- **Fields:** full name*, work email*, phone, job title, company*, company size, service* (custom select with the eight services, "Not sure yet" and "Other"; "Other" requires a short description), preferred start, message* (20–5,000 characters), and consent to be contacted*.
+- **Shared rules:** `src/lib/contact.ts` holds the field limits, options and validation used by both the browser and the server.
+- **Custom select:** `src/components/Select.tsx`, a select-only combobox following the WAI-ARIA APG pattern (arrow keys, Home/End, type-ahead, Escape, Tab commits).
+- **Honest states:** success is shown only when the server confirms delivery. Server validation errors are shown on the right field. Delivery failures show an error with the email address, and nothing typed is lost.
+- **Spam:** a hidden honeypot field, a minimum fill time, same-origin check, 32 KB body limit. Trapped submissions get a normal-looking 200 and are not sent.
+- `?interest=<service-slug>` on `/contact/` pre-selects the service. Service-page CTAs use this.
+- **Drawer:** "Let's Talk" links carry `data-contact-drawer` (or `drawer` on `ButtonLink`). A plain click opens the same form in a slide-in `<dialog>` (`src/components/ContactDrawer.tsx`, full screen on phones); modified clicks, new tabs and no-JS visits still go to `/contact/`. The form code loads only when the drawer is first used. On `/contact/` itself the links don't open the drawer.
 
-### Enabling it
+### Enabling email delivery
 
-1. Create a form with a provider that accepts cross-origin JSON posts from the browser and returns JSON. The form was built against Formspree's conventions (`Accept: application/json`, `_gotcha` honeypot, `_subject`). Basin, Getform, and similar services work if they accept JSON. Check before choosing.
-2. Configure the provider: the recipient address, an allowed domain of `www.bnx24consulting.com`, spam filtering/CAPTCHA, and data retention.
-3. In Cloudflare Pages → Settings → Variables, set `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` (for example `https://formspree.io/f/xxxxxxxx`) for **Production** (and Preview if wanted), then redeploy. The value is compiled into browser code, so it must be a public form URL and never an API key or secret.
-4. Verify on the live site: submit a real test message (with the owner's approval), confirm it arrives in the mailbox, and confirm an invalid submission shows field errors.
+1. Create a [Resend](https://resend.com) account, add and verify the domain `bnx24inc.com` (it gives you DNS records: SPF/DKIM, and optionally a return-path MX record), and create an API key with *Sending access*.
+2. In Cloudflare Pages → the project → Settings → Variables and Secrets, add for **Production** (and Preview if wanted):
 
-Client-side validation only improves usability. **Server-side validation, spam protection, rate limiting, and delivery are the provider's responsibility.** Configure them there.
+   | Name | Type | Value |
+   | --- | --- | --- |
+   | `RESEND_API_KEY` | **Secret** | the Resend API key |
+   | `CONTACT_TO_EMAIL` | Text (optional) | recipient(s), comma-separated. Default `office@bnx24inc.com` |
+   | `CONTACT_FROM_EMAIL` | Text (optional) | sender on the verified domain. Default `BNX 24 Website <website@bnx24inc.com>` |
+   | `ALLOWED_ORIGINS` | Text (optional) | extra origins allowed to post, comma-separated. The site's own origin is always allowed |
 
-`?interest=<service-slug>` on `/contact/` pre-selects the area of interest. Service-page CTAs use this.
+3. Redeploy. Cloudflare Pages picks up the `functions/` directory automatically for Git deployments and for `npx wrangler pages deploy out` run from the project root.
+4. Recommended: add a Cloudflare WAF rate-limiting rule for `POST /api/contact` (for example 5 requests per minute per IP).
+5. With the owner's approval, send one real test message and confirm it arrives and that Reply-To is the sender.
+
+Without `RESEND_API_KEY` the endpoint answers 503 and the form shows its error message with the email address. It never pretends to have sent.
+
+**Local testing of the function:** `npm run build && npx wrangler pages dev out` (add the variables to a `.dev.vars` file, which is git-ignored by convention; do not commit it). `npm run preview` serves static files only, so the form there shows the delivery error.
 
 ## Verification
 
 ```bash
 npm run verify        # typecheck, lint, build, 27 smoke tests
-npm run test:form     # contact form states with an intercepted test endpoint
 npm run preview       # manual review of out/ at http://localhost:4173
 ```
 
@@ -147,51 +160,51 @@ Connect the Git repository in Cloudflare → Workers & Pages → Create → Page
 | Build command | `npm run build` |
 | Build output directory | `out` |
 | Node.js version | 24. The build image reads `.nvmrc`, and you can also set the env var `NODE_VERSION=24`. |
-| Env var (optional) | `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` (see Contact form) |
+| Variables | `RESEND_API_KEY` (secret) and optional `CONTACT_*` values (see Contact form) |
 
-Do **not** use `@cloudflare/next-on-pages` or a Workers adapter. This site is plain static files.
+Do **not** use `@cloudflare/next-on-pages` or a Workers adapter. The site is plain static files; the only server code is `functions/api/contact.ts`.
 
 Direct upload alternative: `npm run build && npx wrangler pages deploy out --project-name <name>`.
 
 ### 2. Custom domain
 
-1. Add `bnx24consulting.com` to Cloudflare as a zone (recommended), or keep DNS elsewhere.
-2. Pages project → Custom domains → add `www.bnx24consulting.com`. On a Cloudflare zone, the CNAME to `<project>.pages.dev` is created automatically. With external DNS, create `CNAME www → <project>.pages.dev` yourself.
+1. Add `bnx24inc.com` to Cloudflare as a zone (recommended), or keep DNS elsewhere.
+2. Pages project → Custom domains → add `www.bnx24inc.com`. On a Cloudflare zone, the CNAME to `<project>.pages.dev` is created automatically. With external DNS, create `CNAME www → <project>.pages.dev` yourself.
 
 ### 3. Apex → www redirect
 
-The canonical origin is `https://www.bnx24consulting.com`. Redirect the apex at the DNS/edge layer. Pages `_redirects` can't redirect by hostname.
+The canonical origin is `https://www.bnx24inc.com`. Redirect the apex at the DNS/edge layer. Pages `_redirects` can't redirect by hostname.
 
-- **Cloudflare zone:** add a proxied placeholder record for the apex (for example `A @ 192.0.2.1`, orange-cloud proxied). Then Rules → Redirect Rules → create a rule (the "Redirect from root to WWW" template): when hostname equals `bnx24consulting.com`, redirect dynamically to `concat("https://www.bnx24consulting.com", http.request.uri.path)` with status **301** and *Preserve query string* on.
-- **External DNS:** use the registrar's or DNS host's URL-forwarding feature (301, path-preserving) from the apex to `https://www.bnx24consulting.com`.
+- **Cloudflare zone:** add a proxied placeholder record for the apex (for example `A @ 192.0.2.1`, orange-cloud proxied). Then Rules → Redirect Rules → create a rule (the "Redirect from root to WWW" template): when hostname equals `bnx24inc.com`, redirect dynamically to `concat("https://www.bnx24inc.com", http.request.uri.path)` with status **301** and *Preserve query string* on.
+- **External DNS:** use the registrar's or DNS host's URL-forwarding feature (301, path-preserving) from the apex to `https://www.bnx24inc.com`.
 
 ### 4. HTTPS verification
 
 After DNS propagates, check each of these:
 
 ```bash
-curl -sI https://www.bnx24consulting.com/ | head -1                      # HTTP/2 200
-curl -sI https://bnx24consulting.com/about/ | grep -i location           # https://www.bnx24consulting.com/about/
-curl -sI http://www.bnx24consulting.com/ | grep -i location              # https:// (enable "Always Use HTTPS")
-curl -sI https://www.bnx24consulting.com/about | grep -i location        # /about/
-curl -sI https://www.bnx24consulting.com/nope/ | head -1                 # 404
-curl -sI https://www.bnx24consulting.com/ | grep -i x-robots-tag         # (no output = indexable)
+curl -sI https://www.bnx24inc.com/ | head -1                      # HTTP/2 200
+curl -sI https://bnx24inc.com/about/ | grep -i location           # https://www.bnx24inc.com/about/
+curl -sI http://www.bnx24inc.com/ | grep -i location              # https:// (enable "Always Use HTTPS")
+curl -sI https://www.bnx24inc.com/about | grep -i location        # /about/
+curl -sI https://www.bnx24inc.com/nope/ | head -1                 # 404
+curl -sI https://www.bnx24inc.com/ | grep -i x-robots-tag         # (no output = indexable)
 ```
 
 In SSL/TLS, enable **Always Use HTTPS**. Consider HSTS once everything works.
 
 ### 5. Preview deployments and indexing
 
-`public/_headers` sends `X-Robots-Tag: noindex` only for `https://:project.pages.dev/*` and `https://:version.:project.pages.dev/*`. That covers every preview URL and the production `*.pages.dev` alias. These rules match by hostname, so they **can't** apply to `www.bnx24consulting.com`. `robots.txt` always allows crawling, and the smoke tests fail if it ever disallows `/`. Use the last `curl` above to confirm production sends no `X-Robots-Tag`. To restrict who can see previews, add Cloudflare Access to preview deployments (Pages → Settings → Access policy).
+`public/_headers` sends `X-Robots-Tag: noindex` only for `https://:project.pages.dev/*` and `https://:version.:project.pages.dev/*`. That covers every preview URL and the production `*.pages.dev` alias. These rules match by hostname, so they **can't** apply to `www.bnx24inc.com`. `robots.txt` always allows crawling, and the smoke tests fail if it ever disallows `/`. Use the last `curl` above to confirm production sends no `X-Robots-Tag`. To restrict who can see previews, add Cloudflare Access to preview deployments (Pages → Settings → Access policy).
 
 ### 6. Business mailbox (separate task)
 
-`office@bnx24consulting.com` appears on the site but **is not created by this project**. Set it up with an email provider (Google Workspace, Microsoft 365, Zoho, and so on): add its MX, SPF, DKIM, and DMARC DNS records, then send and receive a test message before launch.
+`office@bnx24inc.com` appears on the site but **is not created by this project**. Set it up with an email provider (Google Workspace, Microsoft 365, Zoho, and so on): add its MX, SPF, DKIM, and DMARC DNS records, then send and receive a test message before launch.
 
 ### 7. Search Console
 
-1. Add a **Domain property** for `bnx24consulting.com` in Google Search Console and verify it with the DNS TXT record.
-2. Submit `https://www.bnx24consulting.com/sitemap.xml`.
+1. Add a **Domain property** for `bnx24inc.com` in Google Search Console and verify it with the DNS TXT record.
+2. Submit `https://www.bnx24inc.com/sitemap.xml`.
 3. Use URL Inspection on the homepage and one service page to confirm they're indexable.
 4. Optional: do the same in Bing Webmaster Tools (it can import from Search Console).
 
